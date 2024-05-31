@@ -1,0 +1,124 @@
+1. Приложение users у нас уже создано, в главных урлах активируем путь к users.urls.py и идем в urls.py:
+Будемо робити шаблоний логін та вихід, а регістрацію пишемо під себе
+
+from django.urls import path
+from django.contrib.auth.views import LoginView, LogoutView
+
+from . import views
+
+app_name = "users"
+
+urlpatterns = [
+    path('signup/', views.RegisterView.as_view(), name='signup'),
+    path('signin/', LoginView.as_view(), name='signin'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+   ]
+
+2. views.py:
+from django.shortcuts import render
+
+from django.views import View
+
+
+class RegisterView(View):
+    template_name = "users/register.html"
+
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        pass
+
+3. Створюємо forms.py 
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.forms import CharField, TextInput, EmailInput, EmailField, PasswordInput
+
+
+class RegisterForm(UserCreationForm):
+    username = CharField(max_length=16, min_length=3, required=True, widget=TextInput(attrs={"class": "form-control"}))
+    email = EmailField(max_length=25, required=True, widget=EmailInput(attrs={"class": "form-control"}))
+    password1 = CharField(required=True, widget=PasswordInput(attrs={"class": "form-control"}))
+    password2 = CharField(required=True, widget=PasswordInput(attrs={"class": "form-control"}))
+
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password1', 'password2')
+
+
+class LoginForm(AuthenticationForm):
+    username = CharField(max_length=16, min_length=3, required=True, widget=TextInput(attrs={"class": "form-control"}))
+    password = CharField(required=True, widget=PasswordInput(attrs={"class": "form-control"}))
+
+    class Meta:
+        model = User
+        fields = ('username', 'password')
+
+
+4. Возвращаемся к views.py
+from django.shortcuts import render, redirect
+from django.views import View
+from django.contrib import messages
+
+from .forms import RegisterForm
+
+
+# Create your views here.
+
+
+class RegisterView(View):
+    template_name = 'users/register.html'
+    form_class = RegisterForm
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect(to="quotes:root")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        return render(request, self.template_name, {"form": self.form_class})
+
+    def post(self, request):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data["username"]
+            messages.success(request, f"Welcome, {username}. Your account has been successfully created")
+            return redirect(to="users:signin")
+        return render(request, self.template_name, {"form": form})
+
+
+5. urls.py дописываем:
+
+from django.urls import path
+from django.contrib.auth.views import LoginView, LogoutView
+
+from . import views
+from .forms import LoginForm
+
+app_name = "users"
+
+urlpatterns = [
+    path('signup/', views.RegisterView.as_view(), name='signup'),
+    path('signin/',
+         LoginView.as_view(template_name='users/login.html', form_class=LoginForm, redirect_authenticated_user=True),
+         name='signin'),
+    path('logout/', LogoutView.as_view(template_name='users/logout.html'), name='logout')
+]
+
+6. пишем шаблоны logout.html, login.html, register.html
+
+7. После того, как при логировании наш сервер может нас повести не по тому маршруту, то в settings.py надо дописать:
+LOGIN_URL = "/users/signin"    
+LOGIN_REDIRECT_URL = "/"
+
+
+8. Допишем в моделях привязку к User классу, чтобы у каждого пользователя быд так сказать свой кабинет
+
+  user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
+
+ 9. СРобимо міграції:
+python manage.py makemigrations
+python manage.py migrate  
+
+

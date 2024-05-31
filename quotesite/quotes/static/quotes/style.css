@@ -1,0 +1,365 @@
+body {
+    font-family: "Georgia", serif;
+  }
+  
+  h1,
+  h2,
+  h3 {
+    font-family: "Georgia", sans-serif;
+    font-weight: bold;
+  }
+  
+  .quote {
+    padding: 10px;
+    margin-bottom: 30px;
+    border: 1px solid #333333;
+    border-radius: 5px;
+    box-shadow: 2px 2px 3px #333333;
+  }
+  
+  .quote span.text {
+    font-family: "Pacifico";
+    display: block;
+    margin-bottom: 5px;
+    font-size: large;
+    font-style: italic;
+  }
+  
+  .quote span.text {
+    font-family: "Pacifico";
+    display: block;
+    margin-bottom: 5px;
+    font-size: large;
+    font-style: italic;
+    position: relative; /* Добавлено для позиционирования псевдоэлементов */
+  }
+  
+  .quote span.text::before,
+  .quote span.text::after {
+    content: '"';
+  }
+  
+  .quote small.author {
+    font-weight: bold;
+    color: #3677e8;
+  }
+  
+  .quote .tags {
+    margin-top: 10px;
+  }
+  
+  .tag {
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: white;
+    font-size: small;
+    background-color: #7ca3e6;
+  }
+  
+  .pager {
+    font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  }
+  
+  .pager {
+    padding-left: 0;
+    margin: 22px 0;
+    list-style: none;
+    text-align: center;
+  }
+  
+  .pager li {
+    display: inline;
+  }
+  
+  .pager .next > a,
+  .pager .next > span {
+    float: right;
+  }
+  
+  .pager li > a,
+  .pager li > span {
+    display: inline-block;
+    padding: 5px 14px;
+    background-color: #ffffff;
+    border: 1px solid #dddddd;
+    border-radius: 15px;
+  }
+  
+  .tags-box {
+    text-align: right;
+  }
+  
+  .search-box {
+    text-align: right;
+  }
+  
+  .tag-item {
+    display: block;
+    margin: 4px;
+  }
+  
+  .tag {
+    padding: 2px 5px;
+    border-radius: 5px;
+    color: white;
+    font-size: small;
+    background-color: #7ca3e6;
+  }
+  
+  a {
+    color: #4582ec;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  a:hover {
+    color: #2c4674;
+  }
+  
+  .disabled {
+    display: none;
+  }
+
+  .disabled {
+    color: #333333;
+    cursor: not-allowed;
+}
+
+.author-title{
+  margin-top: 22px;
+  margin-bottom: 11px;    
+  font-weight: bold;
+  line-height: 1.1;
+  color: inherit;
+}
+
+.author-born-date{  
+  font-size: 16px;
+  line-height: 1.42857143;
+  color: #333333;
+  background-color: #ffffff;
+}
+
+.author-born-location{  
+  font-size: 16px;
+  line-height: 1.42857143;
+  color: #333333;
+  background-color: #ffffff;
+}
+.author-description{
+  font-size: 16px;
+  line-height: 1.42857143;
+  color: #333333;
+  background-color: #ffffff;
+}
+
+.text{
+  
+    display: block;
+    margin-bottom: 5px;
+    font-size: large;
+    font-style: italic;
+}
+.btn-group .btn {
+  margin-right: 20px; /* Измените значение отступа по вашему усмотрению */
+}
+
+body {
+  font-family: sans-serif;
+}
+
+.container .text-muted {
+  margin: 20px 0;
+}
+
+.tags-box {
+  text-align: right;
+}
+
+.tags-box h2 {
+  margin-top: 0px;
+}
+
+.tag-item {
+  display: block;
+  margin: 4px;
+}
+
+.quote {
+  padding: 10px;
+  margin-bottom: 30px;
+  border: 1px solid #333333;
+  border-radius: 5px;
+  box-shadow: 2px 2px 3px #333333;
+}
+
+.quote small.author {
+  font-weight: bold;
+  color: #3677E8;
+}
+
+.quote span.text {
+  display: block;
+  margin-bottom: 5px;
+  font-size: large;
+  font-style: italic;
+}
+
+.quote .tags {
+  margin-top: 10px;
+}
+
+.tag {
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: white;
+  font-size: small;
+  background-color: #7CA3E6;
+}
+
+a.tag:hover {
+  text-decoration: none;
+}
+
+/* Sticky footer styles */
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 6em;
+  background-color: #f5f5f5;
+}
+
+.error {
+  color: red;
+}
+
+.header-box {
+  padding-bottom: 40px;
+}
+
+.header-box p {
+  margin-top: 30px;
+  float: right;
+}
+
+.author-details  {
+  width: 80%;
+}
+
+.author-description {
+  text-align: justify;
+  margin-bottom: 20px;
+}
+
+ul.pager {
+  margin-bottom: 100px;
+}
+
+.copyright {
+  text-align: center;
+}
+
+.zyte {
+  color: #b02cce;
+}
+
+
+@media (max-width: 1024px) { 
+  .author-details { 
+      width: unset; 
+  } 
+}
+
+.tag-1 {
+  font-size: 28px;
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: white;    
+  background-color: #7CA3E6;
+
+}
+
+.tag-2 {
+  font-size: 26px; 
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: white;    
+  background-color: #7CA3E6; 
+}
+
+.tag-3 {
+  font-size: 24px;  
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: white;    
+  background-color: #7CA3E6;
+}
+
+.tag-4 {
+  font-size: 22px;  
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: white;    
+  background-color: #7CA3E6;
+}
+
+.tag-5 {
+  font-size: 20px;  
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: white;    
+  background-color: #7CA3E6;
+}
+
+.tag-6 {
+  font-size: 18px;  
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: white;    
+  background-color: #7CA3E6;
+}
+
+.tag-7 {
+  font-size: 16px;  
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: white;    
+  background-color: #7CA3E6;
+}
+
+.tag-8 {
+  font-size: 14px;  
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: white;    
+  background-color: #7CA3E6;
+}
+
+.tag-9 {
+  font-size: 12px;  
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: white;    
+  background-color: #7CA3E6;
+}
+
+.tag-10 {
+  font-size: 10px;  
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: white;    
+  background-color: #7CA3E6;
+}
+

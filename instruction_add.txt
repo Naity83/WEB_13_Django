@@ -1,0 +1,87 @@
+1. Создадим форму для заполнения авторов, цитат и тегов forms.pyБ связываем их уже с нашими таблицами
+Класс ModelForm - это специальный класс в Django, который упрощает создание форм на основе моделей (Model).
+ Он позволяет создавать формы, соответствующие определенной модели, автоматически на основе полей этой модели.
+
+Его использование обычно удобно, когда у тебя есть модель (например, модель для цитаты, автора или тега),
+ и ты хочешь создать форму для ввода данных в эту модель. Вместо того чтобы вручную создавать каждое поле формы и привязывать их к модели,
+  можно использовать ModelForm, указав модель, с которой она связана, и поля, которые нужно включить в эту форму.
+   Django самостоятельно создаст поля формы на основе полей модели.
+
+В твоем случае, ты используешь ModelForm для создания форм добавления авторов (AuthorForm), тегов (TagForm) и цитат (QuoteForm). 
+Это помогает сократить количество кода, необходимого для создания этих форм, и делает процесс более удобным и читаемым.
+
+2. во views.py создаем функцию
+@login_required  # Проверяет, что пользователь авторизован, прежде чем позволить доступ к представлению.
+def add_author(request):  # Обработчик запроса для добавления нового автора.
+    if request.method == 'POST':  # Проверка метода запроса (POST или GET).
+        form = AuthorForm(request.POST)  # Создание формы на основе POST данных.
+        if form.is_valid():  # Проверка валидности данных из формы.
+            new_author = form.save(commit=False)  # Создание нового автора без сохранения в БД.
+            new_author.user = request.user  # Установка пользователя как создателя автора.
+            new_author.save()  # Сохранение автора в БД.
+            return redirect(to='quotes:root')  # Перенаправление на главную страницу.
+        else:
+            return render(request, 'quotes/add_author.html', context={'form': form})  # Отображение формы с ошибками валидации.
+    return render(request, 'quotes/add_author.html', context={'form': AuthorForm()})  # Отображение пустой формы для ввода.
+
+3. urls.py:
+path('add_author/', views.add_author, name='add_author'),
+
+4. add_author.html заполняем
+
+5. Теперь все делаем тоже самое для add_quote, add_tag
+
+6. Для того, чтобы вывести новую цитату на сайт во функцию  main файла views.py добавляем latest_quote = Quote.objects.latest('created_at') и получаем
+def main(request, page=1):
+    db = get_mongodb()
+    quotes = db.quotes.find()
+    per_page = 10
+    paginator = Paginator(list(quotes), per_page)
+    quotes_on_page = paginator.page(page)
+    print(list(quotes))
+    latest_quote = Quote.objects.latest('created_at')
+    return render(request, 'quotes/index.html', context={'quotes':quotes_on_page, 'latest_quote': latest_quote})
+
+
+7. Также надо вывести автора этой цитаты и теги для этой цитаты:
+файл views.py теперь выглядит вот так:
+def main(request, page=1):
+    db = get_mongodb()
+    quotes = db.quotes.find()
+    per_page = 10
+    paginator = Paginator(list(quotes), per_page)
+    quotes_on_page = paginator.page(page)
+    print(list(quotes))
+    latest_quote = Quote.objects.latest('created_at')
+    tags_for_latest_quote = latest_quote.tags.all()
+    author_for_latest_quote = Author.objects.get(id=latest_quote.author_id)
+    return render(request, 'quotes/index.html', context={'quotes':quotes_on_page, 
+                                                         'latest_quote': latest_quote,
+                                                          'author_for_latest_quote': author_for_latest_quote, 
+                                                          'tags_for_latest_quote': tags_for_latest_quote})
+
+
+8. index.html вставила вверху блок для ввывода новой цитаты:
+<div class="row">
+    <div class="col-md-8">
+
+        <div class="quote" itemscope="" itemtype="http://schema.org/CreativeWork">
+            <span class="text" itemprop="text"> {{latest_quote.quote}}</span>
+            <span>by <small class="author" itemprop="author">{{author_for_latest_quote.fullname}}</small>
+               
+                <a href="/author_for_tag/{{latest_quote.author.id}}">  (about)</a>
+                   
+            </span>
+            <div class="tags">
+                Tags:
+                {% for tag in tags_for_latest_quote %}       
+                <a class="tag" href="/tag/{{ tag.name }}">{{tag.name}}</a>
+                {% endfor %}
+            </div>
+        </div>    
+
+
+
+
+
+
